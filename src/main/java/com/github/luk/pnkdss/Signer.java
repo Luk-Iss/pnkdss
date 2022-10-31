@@ -7,6 +7,10 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.security.KeyStore.PasswordProtection;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.xml.crypto.dsig.CanonicalizationMethod;
 
 import eu.europa.esig.dss.enumerations.DigestAlgorithm;
 import eu.europa.esig.dss.enumerations.SignatureLevel;
@@ -18,6 +22,10 @@ import eu.europa.esig.dss.model.ToBeSigned;
 import eu.europa.esig.dss.token.Pkcs12SignatureToken;
 import eu.europa.esig.dss.validation.CommonCertificateVerifier;
 import eu.europa.esig.dss.xades.XAdESSignatureParameters;
+import eu.europa.esig.dss.xades.reference.CanonicalizationTransform;
+import eu.europa.esig.dss.xades.reference.DSSReference;
+import eu.europa.esig.dss.xades.reference.DSSTransform;
+import eu.europa.esig.dss.xades.reference.EnvelopedSignatureTransform;
 import eu.europa.esig.dss.xades.signature.XAdESService;
 
 public class Signer {
@@ -124,10 +132,30 @@ public class Signer {
 		);
 
 		XAdESSignatureParameters parameters = new XAdESSignatureParameters();
-		parameters.setXPathLocationString("//*[@*[local-name()='id']='signedData']");
+		parameters.setXPathLocationString("//*[@*[local-name()='id']='signedData']/*[last()]");
 		parameters.setSignatureLevel(SignatureLevel.XAdES_BASELINE_B);
 		parameters.setSignaturePackaging(SignaturePackaging.ENVELOPED);
-		parameters.setDigestAlgorithm(DigestAlgorithm.SHA256);
+
+		List<DSSReference> references = new ArrayList<>();
+		// Initialize and configure ds:Reference based on the provided signer document
+		DSSReference dssReference = new DSSReference();
+		dssReference.setContents(binaryInMemoryDocument);
+		dssReference.setId("r-" + binaryInMemoryDocument.hashCode());
+		List<DSSTransform> transforms = new ArrayList<DSSTransform>();
+		DSSTransform envelopedTransform = new EnvelopedSignatureTransform();
+		transforms.add(envelopedTransform);
+		DSSTransform canonicalization = new CanonicalizationTransform(CanonicalizationMethod.EXCLUSIVE_WITH_COMMENTS);
+		transforms.add(canonicalization);
+		dssReference.setTransforms(transforms);
+		// set empty URI to cover the whole document
+		dssReference.setUri("#signedData");
+		dssReference.setDigestMethodAlgorithm(DigestAlgorithm.SHA256);
+		references.add(dssReference);
+		// set references
+		parameters.setReferences(references);
+		parameters.setXPathElementPlacement(
+				XAdESSignatureParameters.XPathElementPlacement.XPathAfter
+		);
 		parameters.setEn319132(false);
 
 		parameters.setSigningCertificate(token.getKeys().get(0).getCertificate());
@@ -143,9 +171,6 @@ public class Signer {
 
 		token.close();
 
-		parameters.setXPathElementPlacement(
-				XAdESSignatureParameters.XPathElementPlacement.XPathFirstChildOf
-		);
 		DSSDocument signedDocument = service.signDocument(
 				binaryInMemoryDocument, parameters, signatureValue
 		);
