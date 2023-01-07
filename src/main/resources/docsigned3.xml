@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:urn="urn:cz:cnb:pnm">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <urn:vlozeniProfilu urn:id="signedData">
+         <urn:banka>0710</urn:banka>
+         <urn:tc1>420000000333</urn:tc1>
+         <urn:cu1>CZ4307100000190000000123</urn:cu1>
+         <urn:nazev>PePa</urn:nazev>
+         <!--Optional:-->
+        <urn:t0>2022-03-24T08:08:00.000+02:00</urn:t0>
+      <ds:Signature xmlns:ds="http://www.w3.org/2000/09/xmldsig#" Id="Signature"><ds:SignedInfo Id="SignedInfo"><ds:CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"/><ds:SignatureMethod Algorithm="http://www.w3.org/2001/04/xmldsig-more#rsa-sha256"/><ds:Reference URI="#signedData"><ds:Transforms><ds:Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature"/><ds:Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"/></ds:Transforms><ds:DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"/><ds:DigestValue>TvHJPInoXQa87EMyFP/kGKKggSrQ0iCpaUGs+F0S6ls=</ds:DigestValue></ds:Reference><ds:Reference Id="SignedProperties-Reference" Type="http://uri.etsi.org/01903#SignedProperties" URI="#SignedProperties"><ds:Transforms><ds:Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"/></ds:Transforms><ds:DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"/><ds:DigestValue>9rcW6yY0Jy0UJ1/IMau0mVdG3JIa6Pu4jN6ApUetm3k=</ds:DigestValue></ds:Reference></ds:SignedInfo><ds:SignatureValue Id="SignatureValue">zEqIoVYx/xtvpwb/J4m11pJQ8IJv3wZ9uLoAeJuxcyLz0Ngtc2mlPR5nuTvA+Lcp
+ZBeKvNw5JITzsl/iZeTagQ3+Szfts6JENZyr7FriEZeSuJAvXJngak5biN4Z1e9Y
+PgjgOWdlbsbylO0cTJUf2we3beIZxMDSGOp5KNjPq60bC4Vu7s8ffkBbhzB+j2UN
+S6YJnkuUE2w4y/uPBFGrzFg0RorR74SZ44Qtc5YXESqj2V04e0yVmDTrK07zl+PD
+M2P8Hh/bISTdHDmw1RvlfdVwK65xlr2aJTJ4htXVsUhTTePbhsk4DnYGVCGlVZ78
+0ByR2GO649xss647v0U6ig==</ds:SignatureValue><ds:KeyInfo Id="KeyInfo"><ds:X509Data><ds:X509Certificate>MIIDwTCCAqmgAwIBAgIUBVVS5slUJ7tIJwhOh7K7OuCQTGowDQYJKoZIhvcNAQEL
+BQAwcDELMAkGA1UEBhMCQ1oxEzARBgNVBAgMClNvbWUtU3RhdGUxDzANBgNVBAcM
+BlByYWd1ZTEMMAoGA1UECgwDQ05CMQswCQYDVQQDDAJETDEgMB4GCSqGSIb3DQEJ
+ARYRbHVrLmlzc0BzZXpuYW0uY3owHhcNMjIwNDAxMDYzMDQ3WhcNMjMwNDAxMDYz
+MDQ3WjBwMQswCQYDVQQGEwJDWjETMBEGA1UECAwKU29tZS1TdGF0ZTEPMA0GA1UE
+BwwGUHJhZ3VlMQwwCgYDVQQKDANDTkIxCzAJBgNVBAMMAkRMMSAwHgYJKoZIhvcN
+AQkBFhFsdWsuaXNzQHNlem5hbS5jejCCASIwDQYJKoZIhvcNAQEBBQADggEPADCC
+AQoCggEBANRS66tSjh1O6YjPFWrfPDq39sKVBBA8vlWf4vNY0Wayy+IBfP0+/q7t
+rDqZxYWGCHO6YMKvSSww7a99+PRuMIfNXs9eQ2XW24n1ArfGZyvO/KcOPnvnEFQJ
+Dmry/Z9c68X9H1Lz4+Wo2HvSHSQlnSjpRuraYK3WSnQo9IIDGQ2T6WK02mAimzEz
+4rH5BaB10FHnthPlS7y7sz1jBUYgcb5rJTkoBpw83Vz2FjT6hx1vRu5k583GAr7W
+azEp6N3NamzdaRZHi4qmfHBaqPkb20r+kTh0sbd8q/mW+U0KB2IDu9bDpz6FxiKs
+4BDUYGprjjAMqg90tpi8r/Fza5zw6VECAwEAAaNTMFEwHQYDVR0OBBYEFHtPv6tW
+UO7KgI68Z3jhTdGjjbg/MB8GA1UdIwQYMBaAFHtPv6tWUO7KgI68Z3jhTdGjjbg/
+MA8GA1UdEwEB/wQFMAMBAf8wDQYJKoZIhvcNAQELBQADggEBAHG/aZ9P+oYTyeeQ
+22BXC49y1Ba4LMoVtPksLG7iFK76HVknrVtGItl0aQ5U2VV7sU7U9LQAZjKy8Agv
+iwOiwk8luDyfFB/QcDALlc5JEWAJp4mlLuLiKY5uUtaNGCWETYJTEnIPLEf+CWkQ
+Ll/62IUzbunQby6RD91QosYsv1UI8jrtjHczZNlpGwiCL5pU2j8EMH1km14fLjS6
+OF0CRHH2guyYAheCj/5fSB8jAQYThZ7SRg4MSW84cGe1wTCViXJnhCRFLs/tCVT6
+5GGBEevTFhEfeuI6fDXROcr6JygT+gMj/ImsYacI7F4Yw31dIwc0s6+qP/RUz762
+d1S2U3w=</ds:X509Certificate></ds:X509Data></ds:KeyInfo><ds:Object><xades:QualifyingProperties xmlns:xades="http://uri.etsi.org/01903/v1.3.2#" Target="#Signature"><xades:SignedProperties Id="SignedProperties"><xades:SignedSignatureProperties><xades:SigningTime>2023-01-03T10:27:22+01:00</xades:SigningTime><xades:SigningCertificate><xades:Cert><xades:CertDigest><ds:DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"/><ds:DigestValue>WeXz6FHieeh3wXnvkyb86g1GMoM0ZKVamO+dXBnyicM=</ds:DigestValue></xades:CertDigest><xades:IssuerSerial><ds:X509IssuerName>EMAIL=luk.iss@seznam.cz,CN=DL,O=CNB,L=Prague,ST=Some-State,C=CZ</ds:X509IssuerName><ds:X509SerialNumber>30447738935996882685123931776781174979198733418</ds:X509SerialNumber></xades:IssuerSerial></xades:Cert></xades:SigningCertificate></xades:SignedSignatureProperties></xades:SignedProperties></xades:QualifyingProperties></ds:Object></ds:Signature></urn:vlozeniProfilu>
+</soapenv:Body>
+</soapenv:Envelope>

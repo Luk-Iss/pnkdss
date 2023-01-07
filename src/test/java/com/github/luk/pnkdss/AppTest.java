@@ -38,7 +38,7 @@ public class AppTest
      */
     public void testApp()
     {	InputStream document = Signer.class.getResourceAsStream("/document.xml");
-		InputStream p12 = Signer.class.getResourceAsStream("/signcert.p12");
+		InputStream p12 = Signer.class.getResourceAsStream("/signcert2.p12");
 		String output = null;
 		Signer signer = new Signer();
 		try {
@@ -61,7 +61,7 @@ public class AppTest
     
     public void testApp2()
     {	InputStream document = Signer.class.getResourceAsStream("/document.xml");
-		InputStream p12 = Signer.class.getResourceAsStream("/signcert.p12");
+		InputStream p12 = Signer.class.getResourceAsStream("/signcert2.p12");
 		String output = null;
 		Signer signer = new Signer();
 		try {

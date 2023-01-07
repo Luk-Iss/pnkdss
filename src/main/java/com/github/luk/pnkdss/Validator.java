@@ -21,7 +21,7 @@ public class Validator {
 	public static void main(String[] args) {
 		System.out.println("Start!");
 		Validator validator = new Validator();
-		InputStream document = Signer.class.getResourceAsStream("/docsigned.xml");
+		InputStream document = Signer.class.getResourceAsStream("/docsigned2.xml");
 		System.out.println("document: " + document);
 		try {
 			SignatureResult sr = validator.check(document);
