@@ -1,9 +1,0 @@
-﻿<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:urn="urn:com:github:luk:pnkdss">
-  <soapenv:Header />
-  <soapenv:Body>
-    <urn:data urn:id="signedData">
-      <urn:simpleElement>Hello World!</urn:simpleElement>
-    </urn:data>
-  </soapenv:Body>
-</soapenv:Envelope>
