@@ -17,7 +17,7 @@
 		<java.version>1.8</java.version>
 		<maven.compiler.source>${java.version}</maven.compiler.source>
 		<maven.compiler.target>${java.version}</maven.compiler.target>
-		<dss.version>5.10</dss.version>
+		<dss.version>5.13.1</dss.version>
 	</properties>
 
 	<dependencies>
