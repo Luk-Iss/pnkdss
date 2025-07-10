@@ -70,10 +70,10 @@ public class Main {
    */
   private static void printUsage() {
     System.out.println("Použití:");
-    System.out.println("  java -jar pnkDss-1.0-SNAPSHOT-one.jar gen <document.xml> <signcert.p12> <pass.txt>");
+    System.out.println("  java -jar pnkDss-1.0-SNAPSHOT.jar gen <document.xml> <signcert.p12> <pass.txt>");
     System.out
-        .println("  java -jar pnkDss-1.0-SNAPSHOT-one.jar sign <input.xml> <output.xml> <signcert.p12> <pass.txt>");
-    System.out.println("  java -jar pnkDss-1.0-SNAPSHOT-one.jar verify <signed.xml> <cert_output.pem>");
+        .println("  java -jar pnkDss-1.0-SNAPSHOT.jar sign <input.xml> <output.xml> <signcert.p12> <pass.txt>");
+    System.out.println("  java -jar pnkDss-1.0-SNAPSHOT.jar verify <signed.xml> <cert_output.pem>");
   }
 
   /**
@@ -203,7 +203,7 @@ public class Main {
     KeyPair keyPair = keyPairGenerator.generateKeyPair();
     PrivateKey privateKey = keyPair.getPrivate();
 
-    X500Name issuer = new X500Name("CN=My Self-Signed Certificate, OU=My Org, O=My Company, C=CZ");
+    X500Name issuer = new X500Name("C=CZ, O=Github, CN=DL, E=luk.iss@seznam.cz");
     BigInteger serial = BigInteger.valueOf(System.currentTimeMillis());
     Date notBefore = new Date(System.currentTimeMillis());
     Date notAfter = new Date(System.currentTimeMillis() + TimeUnit.DAYS.toMillis(365)); // Platnost 365 dní
