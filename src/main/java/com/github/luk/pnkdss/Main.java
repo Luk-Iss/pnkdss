@@ -24,56 +24,70 @@ import org.bouncycastle.cert.jcajce.JcaX509v3CertificateBuilder;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.bouncycastle.operator.ContentSigner;
 import org.bouncycastle.operator.jcajce.JcaContentSignerBuilder;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-public class Main {
+@SpringBootApplication
+public class Main implements CommandLineRunner {
 
   public static final String DEFAULT_PASSWORD = "7T4W#+bjYY9wrS78";
 
-  static {
-    if (Security.getProvider("BC") == null) {
-      Security.addProvider(new BouncyCastleProvider());
-      System.out.println("Bouncy Castle provider registrován.");
-    }
+  private final Signer signer;
+  private final Validator validator;
+
+  public Main(Signer signer, Validator validator) {
+      this.signer = signer;
+      this.validator = validator;
   }
 
   public static void main(String[] args) {
-    if (args.length < 1) {
-      printUsage();
-      return;
-    }
-
-    String command = args[0];
-    try {
-      switch (command) {
-      case "gen":
-        handleGenCommand(args);
-        break;
-      case "sign":
-        handleSignCommand(args);
-        break;
-      case "verify":
-        handleVerifyCommand(args);
-        break;
-      default:
-        System.err.println("Neznámý příkaz: " + command);
-        printUsage();
+      if (Security.getProvider("BC") == null) {
+          Security.addProvider(new BouncyCastleProvider());
+          System.out.println("Bouncy Castle provider registrován.");
       }
-    } catch (Exception e) {
-      System.err.println("Došlo k chybě: " + e.getMessage());
-      e.printStackTrace();
-      System.exit(1);
-    }
+      SpringApplication.run(Main.class, args);
+  }
+  
+  @Override
+  public void run(String... args) throws Exception {
+      if (args.length < 1) {
+          printUsage();
+          return;
+      }
+
+      String command = args[0];
+      try {
+          switch (command) {
+          case "gen":
+              handleGenCommand(args);
+              break;
+          case "sign":
+              handleSignCommand(args);
+              break;
+          case "verify":
+              handleVerifyCommand(args);
+              break;
+          default:
+              System.err.println("Neznámý příkaz: " + command);
+              printUsage();
+          }
+      } catch (Exception e) {
+          System.err.println("Došlo k chybě: " + e.getMessage());
+          e.printStackTrace();
+          System.exit(1);
+      }
   }
 
+  
   /**
    * Vypíše nápovědu k použití nástroje.
    */
   private static void printUsage() {
     System.out.println("Použití:");
-    System.out.println("  java -jar pnkDss-1.0-SNAPSHOT.jar gen <document.xml> <signcert.p12> <pass.txt>");
-    System.out
-        .println("  java -jar pnkDss-1.0-SNAPSHOT.jar sign <input.xml> <output.xml> <signcert.p12> <pass.txt>");
-    System.out.println("  java -jar pnkDss-1.0-SNAPSHOT.jar verify <signed.xml> <cert_output.pem>");
+    System.out.println("  java -jar pnkDss-1.0-SNAPSHOT.jar gen doc.xml keystore.p12 pass.txt");
+    System.out.println("  java -jar pnkDss-1.0-SNAPSHOT.jar sign doc.xml sigdoc.xml keystore.p12 pass.txt");
+    System.out.println("  java -jar pnkDss-1.0-SNAPSHOT.jar verify sigdoc.xml cert_output.pem");
   }
 
   /**
@@ -133,7 +147,7 @@ public class Main {
    * @param args Argumenty příkazové řádky.
    * @throws Exception Pokud dojde k chybě při podepisování.
    */
-  private static void handleSignCommand(String[] args) throws Exception {
+  private void handleSignCommand(String[] args) throws Exception {
     if (args.length != 5) {
       System.err.println("Chybné použití pro 'sign'.");
       printUsage();
@@ -152,7 +166,6 @@ public class Main {
     try (InputStream documentIs = Files.newInputStream(inputDocumentPath);
         InputStream p12Is = Files.newInputStream(p12Path)) {
 
-      Signer signer = new Signer();
       String signedXml = signer.sign(documentIs, p12Is, DEFAULT_PASSWORD.toCharArray());
 
       Files.write(outputDocumentPath, signedXml.getBytes(StandardCharsets.UTF_8));
@@ -166,7 +179,7 @@ public class Main {
    * @param args Argumenty příkazové řádky.
    * @throws Exception Pokud dojde k chybě při ověřování.
    */
-  private static void handleVerifyCommand(String[] args) throws Exception {
+  private void handleVerifyCommand(String[] args) throws Exception {
     if (args.length != 3) { // Očekáváme 3 argumenty: příkaz, cesta k XML, cesta k výstupnímu certifikátu
       System.err.println("Chybné použití pro 'verify'.");
       printUsage();
@@ -179,7 +192,6 @@ public class Main {
     System.out.println("Ověřuji dokument: " + documentPath);
 
     try (InputStream documentIs = Files.newInputStream(documentPath)) {
-      Validator validator = new Validator();
       SignatureResult sr = validator.check(documentIs);
 
       System.out.println("\n--- Výsledek ověření podpisu ---");

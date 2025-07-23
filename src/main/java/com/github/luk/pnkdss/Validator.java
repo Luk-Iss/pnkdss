@@ -4,6 +4,7 @@ import java.io.InputStream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 import eu.europa.esig.dss.diagnostic.SignatureWrapper;
 import eu.europa.esig.dss.model.DSSDocument;
@@ -14,27 +15,10 @@ import eu.europa.esig.dss.validation.CommonCertificateVerifier;
 import eu.europa.esig.dss.validation.reports.Reports;
 import eu.europa.esig.dss.xades.validation.XMLDocumentValidator;
 
+@Component
 public class Validator {
 
 	Logger log = LoggerFactory.getLogger(Signer.class);
-
-	public static void main(String[] args) {
-		System.out.println("Start!");
-		Validator validator = new Validator();
-		InputStream document = Signer.class.getResourceAsStream("/docsigned2.xml");
-		System.out.println("document: " + document);
-		try {
-			SignatureResult sr = validator.check(document);
-			System.out.println("---- 1 ----");
-			System.out.println("Signing certificate: "	+ sr.getPem());
-			System.out.println("---- 2 ----");
-			System.out.println("Valid: " + (sr.isResultOK() ? "Yes." : "No."));
-			System.out.println("---- 3 ----");
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		System.out.println("Stop!");
-	}
 
 	/**
 	 * @param signeddoc signed document (xades baseline b enveloped)
