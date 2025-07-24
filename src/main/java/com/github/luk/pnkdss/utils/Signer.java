@@ -1,4 +1,4 @@
-package com.github.luk.pnkdss;
+package com.github.luk.pnkdss.utils;
 
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
@@ -35,7 +35,7 @@ public class Signer {
 	 * @param password for keystore
 	 * @return signed document
 	 */
-	public String sign(InputStream document, InputStream keystore, char[] password)
+	public static String sign(InputStream document, InputStream keystore, char[] password)
 			throws Exception {
 
 		DSSDocument binaryInMemoryDocument = new InMemoryDocument(document);

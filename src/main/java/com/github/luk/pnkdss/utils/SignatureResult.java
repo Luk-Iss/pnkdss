@@ -1,4 +1,4 @@
-package com.github.luk.pnkdss;
+package com.github.luk.pnkdss.utils;
 
 public class SignatureResult {
 

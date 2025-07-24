@@ -6,6 +6,11 @@ import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.security.KeyStore;
 
+import com.github.luk.pnkdss.utils.Generator;
+import com.github.luk.pnkdss.utils.SignatureResult;
+import com.github.luk.pnkdss.utils.Signer;
+import com.github.luk.pnkdss.utils.Validator;
+
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
@@ -16,9 +21,9 @@ import junit.framework.TestSuite;
 public class AppTest extends TestCase {
   static {
     try {
-      KeyStore p12KeyStore = Main.p12();
+      KeyStore p12KeyStore = Generator.createP12KeyStore();
       try (ByteArrayOutputStream bos = new ByteArrayOutputStream()) {
-        p12KeyStore.store(bos, Main.DEFAULT_PASSWORD.toCharArray());
+        p12KeyStore.store(bos, Generator.DEFAULT_PASSWORD.toCharArray());
         System.out.println("P12 KeyStore byl úspěšně vygenerován do paměti.");
         p12 = bos.toByteArray();
       }
@@ -51,20 +56,18 @@ public class AppTest extends TestCase {
    * Rigourous Test :-)
    */
   public void testApp() {
-    InputStream document = new ByteArrayInputStream(Main.xmlContent.getBytes(StandardCharsets.UTF_8));
+    InputStream document = new ByteArrayInputStream(Generator.xmlContent.getBytes(StandardCharsets.UTF_8));
     String output = null;
-    Signer signer = new Signer();
     try {
-      output = signer.sign(document, new ByteArrayInputStream(p12), Main.DEFAULT_PASSWORD.toCharArray());
+      output = Signer.sign(document, new ByteArrayInputStream(p12), Generator.DEFAULT_PASSWORD.toCharArray());
     } catch (Exception e) {
       e.printStackTrace();
       assert (false);
     }
     document = new ByteArrayInputStream(output.getBytes());
-    Validator validator = new Validator();
     SignatureResult sr = null;
     try {
-      sr = validator.check(document);
+      sr = Validator.check(document);
     } catch (Exception e) {
       e.printStackTrace();
       assert (false);
@@ -73,11 +76,10 @@ public class AppTest extends TestCase {
   }
 
   public void testApp2() {
-    InputStream document = new ByteArrayInputStream(Main.xmlContent.getBytes(StandardCharsets.UTF_8));
+    InputStream document = new ByteArrayInputStream(Generator.xmlContent.getBytes(StandardCharsets.UTF_8));
     String output = null;
-    Signer signer = new Signer();
     try {
-      output = signer.sign(document, new ByteArrayInputStream(p12), Main.DEFAULT_PASSWORD.toCharArray());
+      output = Signer.sign(document, new ByteArrayInputStream(p12), Generator.DEFAULT_PASSWORD.toCharArray());
     } catch (Exception e) {
       e.printStackTrace();
       assert (false);
@@ -89,11 +91,10 @@ public class AppTest extends TestCase {
     output = output.replace("Hello World!", "Hello World?");
 
     document = new ByteArrayInputStream(output.getBytes());
-    Validator validator = new Validator();
     SignatureResult sr = null;
 
     try {
-      sr = validator.check(document);
+      sr = Validator.check(document);
     } catch (Exception e) {
       e.printStackTrace();
       assert (false);

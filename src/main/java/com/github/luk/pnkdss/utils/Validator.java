@@ -1,4 +1,4 @@
-package com.github.luk.pnkdss;
+package com.github.luk.pnkdss.utils;
 
 import java.io.InputStream;
 
@@ -18,35 +18,36 @@ import eu.europa.esig.dss.xades.validation.XMLDocumentValidator;
 @Component
 public class Validator {
 
-	Logger log = LoggerFactory.getLogger(Signer.class);
+	private static Logger log = LoggerFactory.getLogger(Signer.class);
 
 	/**
 	 * @param signeddoc signed document (xades baseline b enveloped)
 	 */
-	public SignatureResult check(InputStream signeddoc) throws Exception {
+	public static SignatureResult check(InputStream signeddoc) throws Exception {
 
 		CertificateVerifier certificateVerifier = new CommonCertificateVerifier();
 		certificateVerifier.setAIASource(null);
 		DSSDocument xmlDocument = new InMemoryDocument(signeddoc);
 
-		SignatureResult sr = new SignatureResult();
-		
 		XMLDocumentValidator xmlDocumentValidator = new XMLDocumentValidator(xmlDocument);
 		xmlDocumentValidator.setCertificateVerifier(certificateVerifier);
-		sr.setPem(
-				DSSUtils.convertToPEM(
-						xmlDocumentValidator.getSignatures().get(0).getSigningCertificateToken()
-				)
-		);
 
 		Reports reports = xmlDocumentValidator.validateDocument();
 		
 		log.info(reports.getXmlDetailedReport());
-
+		
 		String sigid = reports.getDiagnosticData().getSignatureIdList().iterator().next();
 		SignatureWrapper sid = reports.getDiagnosticData().getSignatureById(sigid);
+        SignatureResult sr = new SignatureResult();
 		sr.setResultOK(sid.isSignatureValid());
-		
+		if(sr.isResultOK()) {
+          sr.setPem(
+            DSSUtils.convertToPEM(
+              xmlDocumentValidator.getSignatures().get(0).getSigningCertificateToken()
+            )
+          );
+		}
+	
 		return sr;
 	}
 }
