@@ -91,6 +91,6 @@ public class Signer {
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		signedDocument.writeTo(baos);
 
-		return baos.toString();
+		return baos.toString("UTF-8");
 	}
 }
